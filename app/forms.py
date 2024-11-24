@@ -1,10 +1,32 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, IntegerField, SelectField, DateField, SubmitField
+from wtforms.validators import DataRequired, Length, Email, NumberRange
+from datetime import date
 
+# Form for adding or editing a Book
+class BookForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=150)])
+    author = StringField('Author', validators=[DataRequired(), Length(min=1, max=150)])
+    isbn = StringField('ISBN', validators=[DataRequired(), Length(min=13, max=13)])
+    quantity = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1)])
+    publication_year = IntegerField('Publication Year', validators=[DataRequired(), NumberRange(min=1000, max=date.today().year)])
+    genre = StringField('Genre', validators=[DataRequired(), Length(min=1, max=100)])
+    page_number = IntegerField('Page Number', validators=[DataRequired(), NumberRange(min=1)])
+    submit = SubmitField('Save Book')
+
+# Form for adding or editing a User
+class UserForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=1, max=150)])
+    birthdate = DateField('Birthdate', format='%Y-%m-%d', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(min=6, max=150)])
+    phone_number = StringField('Phone Number', validators=[DataRequired(), Length(min=10, max=15)])
+    submit = SubmitField('Save User')
+
+# Form for borrowing a book
 class BorrowForm(FlaskForm):
-    user = StringField('User Name', validators=[DataRequired()])
+    user = StringField('Your Name', validators=[DataRequired(), Length(min=1, max=150)])
     submit = SubmitField('Borrow Book')
 
+# Form for returning a borrowed book
 class ReturnForm(FlaskForm):
     submit = SubmitField('Return Book')

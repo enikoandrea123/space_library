@@ -1,6 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Welcome to the Library</h2>
-<p><a href="{{ url_for('catalog') }}">Browse the catalog</a></p>
+    <div class="home-container">
+        <h1>Welcome to the Library Management System</h1>
+        <p>Select an option from below:</p>
+
+        <div class="options-container">
+            <a href="{{ url_for('main.catalog') }}" class="btn">Book Catalog</a>
+            <a href="{{ url_for('main.users') }}" class="btn">User Catalog</a>
+            <a href="{{ url_for('main.borrowed_books') }}" class="btn">Borrowed Books</a>
+            <a href="{{ url_for('main.add_book') }}" class="btn">Add Book</a>
+            <a href="{{ url_for('main.add_user') }}" class="btn">Add User</a>
+        </div>
+    </div>
+
+    <style>
+        /* Center the content vertically and horizontally */
+        .home-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .home-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .options-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 {% endblock %}

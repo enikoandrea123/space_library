@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Edit Book</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>{{ form.title.label }} {{ form.title() }}</p>
+    <p>{{ form.author.label }} {{ form.author() }}</p>
+    <p>{{ form.isbn.label }} {{ form.isbn() }}</p>
+    <p>{{ form.genre.label }} {{ form.genre() }}</p>
+    <p>{{ form.page_number.label }} {{ form.page_number() }}</p>
+    <p>{{ form.publication_year.label }} {{ form.publication_year() }}</p>
+    <p>{{ form.quantity.label }} {{ form.quantity() }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}
