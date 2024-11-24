@@ -1,29 +1,99 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a5acd;
+            text-align: center;
+        }
+        .filter-form {
+            background-color: #f3c0cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .filter-form label {
+            font-weight: bold;
+            color: #6a5acd;
+        }
+        .filter-form input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter-form button {
+            background-color: #6a5acd;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter-form button:hover {
+            background-color: #5a4cad;
+        }
+        .user-card {
+            background-color: #f3c0cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .user-card h3 {
+            color: #ff80ab;
+        }
+        .btn {
+            background-color: #ff80ab;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #ff6080;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User List</h1>
 
-{% block content %}
-<h1>User Catalog</h1>
-<a href="{{ url_for('main.add_user') }}">Add New User</a>
-<table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
+        <form class="filter-form" method="get" action="{{ url_for('main.users') }}">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search" placeholder="Search by name or email" value="{{ request.args.get('search', '') }}">
+
+            <label for="id">User ID:</label>
+            <input type="number" id="id" name="id" placeholder="Search by ID" value="{{ request.args.get('id', '') }}">
+
+            <button type="submit">Filter</button>
+        </form>
+
         {% for user in users %}
-            <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a href="{{ url_for('main.edit_user', user_id=user.id) }}">Edit</a> |
-                    <form action="{{ url_for('main.delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
+        <div class="user-card">
+            <h3>{{ user.name }}</h3>
+            <p>Email: {{ user.email }}</p>
+            <p>Phone: {{ user.phone_number }}</p>
+            <p>ID: {{ user.id }}</p>
+            <a href="{{ url_for('main.edit_user', user_id=user.id) }}" class="btn">Edit User</a>
+            <a href="{{ url_for('main.delete_user', user_id=user.id) }}" class="btn" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</a>
+        </div>
         {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrowed Books</title>
+    <style>
+        body {
+            background-color: #fffaf0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            margin: 50px auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8bbd0;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #fce4ec;
+        }
+        h1 {
+            text-align: center;
+            color: #d81b60;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Borrowed Books</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Username</th>
+            <th>User ID</th>
+            <th>ISBN</th>
+            <th>Borrow Date</th>
+            <th>Due Date</th>
+            <th>Return Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for borrow in borrowed_books %}
+        <tr>
+            <td>{{ borrow.book.title }}</td>
+            <td>{{ borrow.book.author }}</td>
+            <td>{{ borrow.user.name }}</td>
+            <td>{{ borrow.user_id }}</td>
+            <td>{{ borrow.book.isbn }}</td>
+            <td>{{ borrow.borrow_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ borrow.due_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ borrow.return_date.strftime('%Y-%m-%d') if borrow.return_date else 'Not Returned' }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a5acd;
+            text-align: center;
+        }
+        .form-container {
+            background-color: #f3c0cb;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input,
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #ff80ab;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #ff6080;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Edit User</h1>
+    <div class="form-container">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.name.label }} {{ form.name() }}<br>
+            {{ form.birthdate.label }} {{ form.birthdate() }}<br>
+            {{ form.email.label }} {{ form.email() }}<br>
+            {{ form.phone_number.label }} {{ form.phone_number() }}<br>
+            <button type="submit">Update User</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

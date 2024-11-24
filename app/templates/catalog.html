@@ -1,102 +1,127 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a5acd;
+            text-align: center;
+        }
+        .filter-form {
+            background-color: #f3c0cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .filter-form label {
+            font-weight: bold;
+            color: #6a5acd;
+        }
+        .filter-form input,
+        .filter-form select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter-form button {
+            background-color: #6a5acd;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter-form button:hover {
+            background-color: #5a4cad;
+        }
+        .book-card {
+            background-color: #f3c0cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .book-card h3 {
+            color: #ff80ab;
+        }
+        .book-card p {
+            color: #6b6b6b;
+        }
+        .btn {
+            background-color: #ff80ab;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #ff6080;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Book Catalog</h1>
 
-{% block content %}
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title text-center mb-4" style="font-family: 'Poppins', sans-serif;">Book Catalog</h2>
-            {% if error_message %}
-            <div class="alert alert-danger text-center">
-                {{ error_message }}
-            </div>
-            {% endif %}
-            <div class="row">
-                {% for book in books.items %}
-                <div class="col-md-4 mb-4">
-                    <div class="book-item card" style="background-color: #f7f0e1; padding: 20px; border-radius: 15px;">
-                        <h5 class="book-title" style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: bold;">{{ book.title }}</h5>
-                        <p class="author" style="color: #6c757d;">by {{ book.author }}</p>
-                        <p class="genre" style="font-style: italic;">Genre: {{ book.genre }}</p>
-                        <p class="pages">Pages: {{ book.page_number }}</p>
-                        <p class="year">Published: {{ book.publication_year }}</p>
-                        <div class="d-flex justify-content-center">
-                            <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn btn-primary me-2" style="background-color: #f7b7a3; border: none; color: white;">Edit</a>
-                            <form action="{{ url_for('main.delete_book', book_id=book.id) }}" method="POST" class="d-inline">
-                                <button type="submit" class="btn btn-danger" style="background-color: #f7a3a3; border: none; color: white;">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="d-flex justify-content-center">
-                {% if books.has_prev %}
-                <a href="{{ url_for('main.catalog', page=books.prev_num) }}" class="btn btn-light me-2">Previous</a>
-                {% endif %}
-                <span class="mx-2" style="font-weight: bold;">Page {{ books.page }} of {{ books.pages }}</span>
-                {% if books.has_next %}
-                <a href="{{ url_for('main.catalog', page=books.next_num) }}" class="btn btn-light ms-2">Next</a>
-                {% endif %}
-            </div>
-        </div>
+    <form class="filter-form" method="get" action="{{ url_for('main.catalog') }}">
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" placeholder="Search by title or author" value="{{ request.args.get('search', '') }}">
+
+        <label for="genre">Genre:</label>
+        <select id="genre" name="genre">
+            <option value="">--Select Genre--</option>
+            <option value="Fiction" {% if request.args.get('genre') == 'Fiction' %}selected{% endif %}>Fiction</option>
+            <option value="Non-Fiction" {% if request.args.get('genre') == 'Non-Fiction' %}selected{% endif %}>Non-Fiction</option>
+            <option value="Science Fiction" {% if request.args.get('genre') == 'Science Fiction' %}selected{% endif %}>Science Fiction</option>
+            <option value="Fantasy" {% if request.args.get('genre') == 'Fantasy' %}selected{% endif %}>Fantasy</option>
+        </select>
+
+        <label for="year">Publication Year:</label>
+        <input type="number" id="year" name="year" placeholder="e.g., 2023" value="{{ request.args.get('year', '') }}">
+
+        <button type="submit">Filter</button>
+    </form>
+
+    {% for book in books.items %}
+    <div class="book-card">
+        <h3>{{ book.title }} by {{ book.author }}</h3>
+        <p>ISBN: {{ book.isbn }}</p>
+        <p>Genre: {{ book.genre }}</p>
+        <p>Quantity Available: {{ book.quantity }}</p>
+        <a href="{{ url_for('main.registrate_borrowing') }}" class="btn">Borrow a Book</a>
+        <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn">Edit Book</a>
+        <a href="{{ url_for('main.delete_book', book_id=book.id) }}" class="btn"
+           onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
+    </div>
+    {% endfor %}
+
+    <div class="pagination">
+        {% if books.has_prev %}
+        <a href="{{ url_for('main.catalog', page=books.prev_num) }}" class="btn">Previous</a>
+        {% endif %}
+        {% if books.has_next %}
+        <a href="{{ url_for('main.catalog', page=books.next_num) }}" class="btn">Next</a>
+        {% endif %}
     </div>
 </div>
-
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f1e6e1;
-    }
-
-    .card {
-        background-color: #ffffff;
-        border-radius: 15px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-body {
-        padding: 25px;
-    }
-
-    .btn {
-        font-size: 16px;
-        padding: 10px 20px;
-        border-radius: 10px;
-    }
-
-    .btn:hover {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .alert {
-        font-size: 16px;
-        font-weight: 500;
-    }
-
-    .book-item {
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .book-title {
-        color: #6b2d5c;
-        font-weight: bold;
-        font-size: 22px;
-    }
-
-    .author {
-        font-size: 16px;
-        color: #5a5a5a;
-    }
-
-    .genre, .pages, .year {
-        font-size: 14px;
-        color: #808080;
-    }
-
-    .pagination a {
-        text-decoration: none;
-        color: #6c757d;
-    }
-</style>
-{% endblock %}
+</body>
+</html>

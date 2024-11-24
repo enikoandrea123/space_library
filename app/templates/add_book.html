@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f3f5; /* Pastel light pink background */
+            background-color: #f8f3f5;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,7 +26,7 @@
         .container h1 {
             text-align: center;
             font-size: 2rem;
-            color: #ffb6c1; /* Pastel pink */
+            color: #ffb6c1;
             margin-bottom: 30px;
         }
 
@@ -43,17 +43,17 @@
             width: 100%;
             padding: 12px;
             border-radius: 10px;
-            border: 2px solid #e8d6e9; /* Light lavender border */
+            border: 2px solid #e8d6e9;
             font-size: 1rem;
             margin-top: 5px;
-            background-color: #faf2f7; /* Light pastel background */
+            background-color: #faf2f7;
             box-sizing: border-box;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background-color: #b5e7a0; /* Pastel green */
+            background-color: #b5e7a0;
             border: none;
             border-radius: 10px;
             color: white;
@@ -64,7 +64,7 @@
         }
 
         button:hover {
-            background-color: #98d58f; /* Darker pastel green */
+            background-color: #98d58f;
         }
 
         .back-button {
@@ -72,7 +72,7 @@
             margin-top: 20px;
             text-align: center;
             font-size: 1rem;
-            color: #a5b8d8; /* Light pastel blue */
+            color: #a5b8d8;
             text-decoration: none;
         }
 
@@ -82,45 +82,45 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Add New Book</h1>
-        <form method="POST">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title" required>
-            </div>
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input type="text" name="author" id="author" required>
-            </div>
-            <div class="form-group">
-                <label for="isbn">ISBN</label>
-                <input type="text" name="isbn" id="isbn" required>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" name="quantity" id="quantity" required>
-            </div>
-            <div class="form-group">
-                <label for="genre">Genre</label>
-                <select name="genre" id="genre" required>
-                    <option value="Fiction">Fiction</option>
-                    <option value="Non-Fiction">Non-Fiction</option>
-                    <option value="Science Fiction">Science Fiction</option>
-                    <option value="Fantasy">Fantasy</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="publication_year">Publication Year</label>
-                <input type="number" name="publication_year" id="publication_year" required>
-            </div>
-            <div class="form-group">
-                <label for="page_number">Page Number</label>
-                <input type="number" name="page_number" id="page_number" required>
-            </div>
-            <button type="submit">Add Book</button>
-        </form>
-        <a href="{{ url_for('main.catalog') }}" class="back-button">Back to Catalog</a>
-    </div>
+<div class="container">
+    <h1>Add New Book</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" name="author" id="author" required>
+        </div>
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" name="isbn" id="isbn" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" id="quantity" required>
+        </div>
+        <div class="form-group">
+            <label for="genre">Genre</label>
+            <select name="genre" id="genre" required>
+                <option value="Fiction">Fiction</option>
+                <option value="Non-Fiction">Non-Fiction</option>
+                <option value="Science Fiction">Science Fiction</option>
+                <option value="Fantasy">Fantasy</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="publication_year">Publication Year</label>
+            <input type="number" name="publication_year" id="publication_year" required>
+        </div>
+        <div class="form-group">
+            <label for="page_number">Page Number</label>
+            <input type="number" name="page_number" id="page_number" required>
+        </div>
+        <button type="submit">Add Book</button>
+    </form>
+    <a href="{{ url_for('main.catalog') }}" class="back-button">Back to Catalog</a>
+</div>
 </body>
 </html>

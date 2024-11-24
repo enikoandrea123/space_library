@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Borrowing</title>
+    <style>
+        body {
+            background-color: #fffaf0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background-color: #fce4ec;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d81b60;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"] {
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #d81b60;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #c2185b;
+        }
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register Borrowing</h1>
+        <form method="POST">
+            <label for="user_id">User ID</label>
+            <input type="text" id="user_id" name="user_id" required>
+
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" name="isbn" required>
+
+            <label for="borrow_date">Borrow Date</label>
+            <input type="date" id="borrow_date" name="borrow_date" required>
+
+            <label for="due_date">Due Date</label>
+            <input type="date" id="due_date" name="due_date" required>
+
+            <button type="submit" class="btn">Register Borrowing</button>
+        </form>
+
+        {% if success_message %}
+        <div class="message" style="color: green;">{{ success_message }}</div>
+        {% endif %}
+
+        {% if error_message %}
+        <div class="message" style="color: red;">{{ error_message }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,148 +1,147 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="home-container">
-        <h1>Welcome to the Library Management System</h1>
-        <p>Select an option from below:</p>
+<div class="home-container">
+    <h1>Welcome to the Library Management System</h1>
+    <p>Select an option from below:</p>
 
-        <div class="card">
-            <div class="options-container">
-                <a href="{{ url_for('main.catalog') }}" class="btn btn-primary">Book Catalog</a>
-                <a href="{{ url_for('main.users') }}" class="btn btn-secondary">User Catalog</a>
-                <a href="{{ url_for('main.borrowed_books') }}" class="btn btn-info">Borrowed Books</a>
-                <a href="{{ url_for('main.add_book') }}" class="btn btn-success">Add Book</a>
-                <a href="{{ url_for('main.add_user') }}" class="btn btn-warning">Add User</a>
-            </div>
+    <div class="card">
+        <div class="options-container">
+            <a href="{{ url_for('main.catalog') }}" class="btn btn-primary">Book Catalog</a>
+            <a href="{{ url_for('main.users') }}" class="btn btn-secondary">User Catalog</a>
+            <a href="{{ url_for('main.borrowed_books') }}" class="btn btn-info">Borrowed Books</a>
+            <a href="{{ url_for('main.add_book') }}" class="btn btn-success">Add Book</a>
+            <a href="{{ url_for('main.add_user') }}" class="btn btn-warning">Add User</a>
         </div>
     </div>
+</div>
 
-    <style>
-        /* Center the content vertically and horizontally */
-        .home-container {
-            text-align: center;
-            margin-top: 100px;
-            color: #333;
-        }
+<style>
 
-        .home-container h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-family: 'Lobster', cursive;  /* Cuter font */
-            color: #6c757d;
-        }
+    .home-container {
+        text-align: center;
+        margin-top: 100px;
+        color: #333;
+    }
 
-        /* Soft pastel background */
-        body {
-            background: linear-gradient(to right, #f6d6d2, #f7c3d6, #f0e6f6);
-            font-family: 'Poppins', sans-serif;
-        }
+    .home-container h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        font-family: 'Lobster', cursive;
+        color: #6c757d;
+    }
 
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            color: #666;
-        }
 
-        /* Card container with soft pastel background */
+    body {
+        background: linear-gradient(to right, #f6d6d2, #f7c3d6, #f0e6f6);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        color: #666;
+    }
+
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 350px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+    }
+
+
+    .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .btn {
+        background-color: #f7c3d6;
+        color: #fff;
+        padding: 15px;
+        font-size: 1.2rem;
+        text-decoration: none;
+        border-radius: 12px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #f6b7b2;
+    }
+
+    .btn-secondary {
+        background-color: #d0e1f9;
+    }
+
+    .btn-info {
+        background-color: #e3f5db;
+    }
+
+    .btn-success {
+        background-color: #e0d4f0;
+    }
+
+    .btn-warning {
+        background-color: #fff5c1;
+    }
+
+
+    .btn:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-primary:hover {
+        background-color: #e8a7a0;
+    }
+
+    .btn-secondary:hover {
+        background-color: #b9d5f6;
+    }
+
+    .btn-info:hover {
+        background-color: #b9e4af;
+    }
+
+    .btn-success:hover {
+        background-color: #d1c6e3;
+    }
+
+    .btn-warning:hover {
+        background-color: #f8e89b;
+    }
+
+
+    @media (max-width: 768px) {
         .card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 350px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-        }
-
-        /* Buttons container */
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            align-items: center;  /* Centering the buttons horizontally */
+            width: 80%;
         }
 
         .btn {
-            background-color: #f7c3d6;  /* Soft pink pastel */
-            color: #fff;
-            padding: 15px;
-            font-size: 1.2rem;
-            text-decoration: none;
-            border-radius: 12px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            width: 100%;  /* Make the buttons take full width */
-            text-align: center;
+            font-size: 1rem;
+            padding: 12px;
         }
+    }
+</style>
 
-        .btn-primary {
-            background-color: #f6b7b2;  /* Pastel coral */
-        }
-
-        .btn-secondary {
-            background-color: #d0e1f9;  /* Pastel blue */
-        }
-
-        .btn-info {
-            background-color: #e3f5db;  /* Pastel green */
-        }
-
-        .btn-success {
-            background-color: #e0d4f0;  /* Pastel lavender */
-        }
-
-        .btn-warning {
-            background-color: #fff5c1;  /* Pastel yellow */
-        }
-
-        /* Hover effects for buttons */
-        .btn:hover {
-            transform: scale(1.05);
-        }
-
-        .btn-primary:hover {
-            background-color: #e8a7a0;
-        }
-
-        .btn-secondary:hover {
-            background-color: #b9d5f6;
-        }
-
-        .btn-info:hover {
-            background-color: #b9e4af;
-        }
-
-        .btn-success:hover {
-            background-color: #d1c6e3;
-        }
-
-        .btn-warning:hover {
-            background-color: #f8e89b;
-        }
-
-        /* Responsive design for smaller screens */
-        @media (max-width: 768px) {
-            .card {
-                width: 80%;
-            }
-
-            .btn {
-                font-size: 1rem;  /* Reduce font size on smaller screens */
-                padding: 12px;
-            }
-        }
-    </style>
-
-    <!-- Google Fonts Link for Lobster Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 {% endblock %}
