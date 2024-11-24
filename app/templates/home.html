@@ -5,12 +5,14 @@
         <h1>Welcome to the Library Management System</h1>
         <p>Select an option from below:</p>
 
-        <div class="options-container">
-            <a href="{{ url_for('main.catalog') }}" class="btn">Book Catalog</a>
-            <a href="{{ url_for('main.users') }}" class="btn">User Catalog</a>
-            <a href="{{ url_for('main.borrowed_books') }}" class="btn">Borrowed Books</a>
-            <a href="{{ url_for('main.add_book') }}" class="btn">Add Book</a>
-            <a href="{{ url_for('main.add_user') }}" class="btn">Add User</a>
+        <div class="card">
+            <div class="options-container">
+                <a href="{{ url_for('main.catalog') }}" class="btn btn-primary">Book Catalog</a>
+                <a href="{{ url_for('main.users') }}" class="btn btn-secondary">User Catalog</a>
+                <a href="{{ url_for('main.borrowed_books') }}" class="btn btn-info">Borrowed Books</a>
+                <a href="{{ url_for('main.add_book') }}" class="btn btn-success">Add Book</a>
+                <a href="{{ url_for('main.add_user') }}" class="btn btn-warning">Add User</a>
+            </div>
         </div>
     </div>
 
@@ -19,46 +21,128 @@
         .home-container {
             text-align: center;
             margin-top: 100px;
+            color: #333;
         }
 
         .home-container h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 20px;
+            font-family: 'Lobster', cursive;  /* Cuter font */
+            color: #6c757d;
         }
 
+        /* Soft pastel background */
+        body {
+            background: linear-gradient(to right, #f6d6d2, #f7c3d6, #f0e6f6);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #666;
+        }
+
+        /* Card container with soft pastel background */
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 350px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Buttons container */
         .options-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             gap: 20px;
-            flex-wrap: wrap;
+            width: 100%;
+            align-items: center;  /* Centering the buttons horizontally */
         }
 
         .btn {
-            background-color: #007bff;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
+            background-color: #f7c3d6;  /* Soft pink pastel */
+            color: #fff;
+            padding: 15px;
             font-size: 1.2rem;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
             transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 100%;  /* Make the buttons take full width */
+            text-align: center;
         }
 
+        .btn-primary {
+            background-color: #f6b7b2;  /* Pastel coral */
+        }
+
+        .btn-secondary {
+            background-color: #d0e1f9;  /* Pastel blue */
+        }
+
+        .btn-info {
+            background-color: #e3f5db;  /* Pastel green */
+        }
+
+        .btn-success {
+            background-color: #e0d4f0;  /* Pastel lavender */
+        }
+
+        .btn-warning {
+            background-color: #fff5c1;  /* Pastel yellow */
+        }
+
+        /* Hover effects for buttons */
         .btn:hover {
-            background-color: #0056b3;
             transform: scale(1.05);
         }
 
-        .btn:active {
-            transform: scale(0.98);
+        .btn-primary:hover {
+            background-color: #e8a7a0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #b9d5f6;
+        }
+
+        .btn-info:hover {
+            background-color: #b9e4af;
+        }
+
+        .btn-success:hover {
+            background-color: #d1c6e3;
+        }
+
+        .btn-warning:hover {
+            background-color: #f8e89b;
         }
 
         /* Responsive design for smaller screens */
         @media (max-width: 768px) {
-            .options-container {
-                flex-direction: column;
-                gap: 10px;
+            .card {
+                width: 80%;
+            }
+
+            .btn {
+                font-size: 1rem;  /* Reduce font size on smaller screens */
+                padding: 12px;
             }
         }
     </style>
+
+    <!-- Google Fonts Link for Lobster Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 {% endblock %}
