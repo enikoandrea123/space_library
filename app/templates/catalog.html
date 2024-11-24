@@ -1,29 +1,102 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Book Catalog</h1>
-<a href="{{ url_for('main.add_book') }}">Add New Book</a>
-<table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for book in books %}
-            <tr>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>
-                    <a href="{{ url_for('main.edit_book', book_id=book.id) }}">Edit</a> |
-                    <form action="{{ url_for('main.delete_book', book_id=book.id) }}" method="POST" style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4" style="font-family: 'Poppins', sans-serif;">Book Catalog</h2>
+            {% if error_message %}
+            <div class="alert alert-danger text-center">
+                {{ error_message }}
+            </div>
+            {% endif %}
+            <div class="row">
+                {% for book in books.items %}
+                <div class="col-md-4 mb-4">
+                    <div class="book-item card" style="background-color: #f7f0e1; padding: 20px; border-radius: 15px;">
+                        <h5 class="book-title" style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: bold;">{{ book.title }}</h5>
+                        <p class="author" style="color: #6c757d;">by {{ book.author }}</p>
+                        <p class="genre" style="font-style: italic;">Genre: {{ book.genre }}</p>
+                        <p class="pages">Pages: {{ book.page_number }}</p>
+                        <p class="year">Published: {{ book.publication_year }}</p>
+                        <div class="d-flex justify-content-center">
+                            <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn btn-primary me-2" style="background-color: #f7b7a3; border: none; color: white;">Edit</a>
+                            <form action="{{ url_for('main.delete_book', book_id=book.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger" style="background-color: #f7a3a3; border: none; color: white;">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="d-flex justify-content-center">
+                {% if books.has_prev %}
+                <a href="{{ url_for('main.catalog', page=books.prev_num) }}" class="btn btn-light me-2">Previous</a>
+                {% endif %}
+                <span class="mx-2" style="font-weight: bold;">Page {{ books.page }} of {{ books.pages }}</span>
+                {% if books.has_next %}
+                <a href="{{ url_for('main.catalog', page=books.next_num) }}" class="btn btn-light ms-2">Next</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f1e6e1;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+
+    .btn:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .book-item {
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-title {
+        color: #6b2d5c;
+        font-weight: bold;
+        font-size: 22px;
+    }
+
+    .author {
+        font-size: 16px;
+        color: #5a5a5a;
+    }
+
+    .genre, .pages, .year {
+        font-size: 14px;
+        color: #808080;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        color: #6c757d;
+    }
+</style>
 {% endblock %}

@@ -1,13 +1,109 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f3f5; /* Pastel light pink background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-{% block content %}
-<h1>Add New User</h1>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <p>{{ form.name.label }} {{ form.name() }}</p>
-    <p>{{ form.birthdate.label }} {{ form.birthdate() }}</p>
-    <p>{{ form.email.label }} {{ form.email() }}</p>
-    <p>{{ form.phone_number.label }} {{ form.phone_number() }}</p>
-    <p>{{ form.submit() }}</p>
-</form>
-{% endblock %}
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .container h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: #ffb6c1; /* Pastel pink */
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #e8d6e9; /* Light lavender border */
+            font-size: 1rem;
+            margin-top: 5px;
+            background-color: #faf2f7; /* Light pastel background */
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #b5e7a0; /* Pastel green */
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #98d58f; /* Darker pastel green */
+        }
+
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #a5b8d8; /* Light pastel blue */
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New User</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                <input type="text" name="phone_number" id="phone_number" required>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" name="birthdate" id="birthdate" required>
+            </div>
+            <button type="submit">Add User</button>
+        </form>
+        <a href="{{ url_for('main.users') }}" class="back-button">Back to Users List</a>
+    </div>
+</body>
+</html>

@@ -1,3 +1,5 @@
+from sqlite3 import OperationalError
+
 from flask import render_template, request, redirect, url_for, Blueprint
 from app import db
 from app.models import Book, User, Borrow
@@ -14,10 +16,19 @@ def home():
 # Book Catalog Page
 @main.route('/catalog')
 def catalog():
-    page = request.args.get('page', 1, type=int)
-    books = Book.query.paginate(page, 10, False)  # Adjust per page
-    return render_template('catalog.html', books=books)
+    try:
+        # Attempt to query the database
+        page = request.args.get('page', 1, type=int)
+        per_page = 10  # Number of books per page
+        books = Book.query.paginate(page=page, per_page=per_page, error_out=False)
+    except OperationalError:
+        # If there's an OperationalError, the database might be missing or corrupt
+        books = []  # Fallback to an empty book list
+        error_message = "Error: Unable to access the database. Please try again later."
+        return render_template('catalog.html', books=books, error_message=error_message)
 
+    # If the database is available, return the paginated books
+    return render_template('catalog.html', books=books)
 # Add Book Page
 @main.route('/add_book', methods=['GET', 'POST'])
 def add_book():

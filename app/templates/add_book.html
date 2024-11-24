@@ -1,16 +1,126 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f3f5; /* Pastel light pink background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-{% block content %}
-<h1>Add New Book</h1>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <p>{{ form.title.label }} {{ form.title() }}</p>
-    <p>{{ form.author.label }} {{ form.author() }}</p>
-    <p>{{ form.isbn.label }} {{ form.isbn() }}</p>
-    <p>{{ form.genre.label }} {{ form.genre() }}</p>
-    <p>{{ form.page_number.label }} {{ form.page_number() }}</p>
-    <p>{{ form.publication_year.label }} {{ form.publication_year() }}</p>
-    <p>{{ form.quantity.label }} {{ form.quantity() }}</p>
-    <p>{{ form.submit() }}</p>
-</form>
-{% endblock %}
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .container h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: #ffb6c1; /* Pastel pink */
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #e8d6e9; /* Light lavender border */
+            font-size: 1rem;
+            margin-top: 5px;
+            background-color: #faf2f7; /* Light pastel background */
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #b5e7a0; /* Pastel green */
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #98d58f; /* Darker pastel green */
+        }
+
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #a5b8d8; /* Light pastel blue */
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Book</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" name="author" id="author" required>
+            </div>
+            <div class="form-group">
+                <label for="isbn">ISBN</label>
+                <input type="text" name="isbn" id="isbn" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" id="quantity" required>
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <select name="genre" id="genre" required>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Fantasy">Fantasy</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="publication_year">Publication Year</label>
+                <input type="number" name="publication_year" id="publication_year" required>
+            </div>
+            <div class="form-group">
+                <label for="page_number">Page Number</label>
+                <input type="number" name="page_number" id="page_number" required>
+            </div>
+            <button type="submit">Add Book</button>
+        </form>
+        <a href="{{ url_for('main.catalog') }}" class="back-button">Back to Catalog</a>
+    </div>
+</body>
+</html>
