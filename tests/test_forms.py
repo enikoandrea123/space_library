@@ -1,6 +1,8 @@
 import unittest
-from datetime import date
+from datetime import date, datetime, timedelta
 from app.forms import BookForm, UserForm, BorrowForm, ReturnForm
+from app.models import Book, User, Borrow
+from app.utils import calculate_late_fee
 
 
 class TestBookForm(unittest.TestCase):
@@ -105,6 +107,32 @@ class TestReturnForm(unittest.TestCase):
     def test_valid_return_form(self):
         form = ReturnForm(data={})
         self.assertTrue(form.validate(), "ReturnForm should validate as it has no required fields.")
+
+
+class TestUtils(unittest.TestCase):
+    def test_calculate_late_fee_no_late(self):
+        borrow = Borrow(
+            borrow_date=datetime(2023, 11, 1),
+            due_date=datetime(2023, 11, 15),
+            return_date=datetime(2023, 11, 14)
+        )
+        self.assertEqual(calculate_late_fee(borrow), 0, "Late fee should be 0 for on-time returns.")
+
+    def test_calculate_late_fee_late(self):
+        borrow = Borrow(
+            borrow_date=datetime(2023, 11, 1),
+            due_date=datetime(2023, 11, 15),
+            return_date=datetime(2023, 11, 20)
+        )
+        self.assertEqual(calculate_late_fee(borrow), 5, "Late fee should be calculated correctly for late returns.")
+
+    def test_calculate_late_fee_no_return_date(self):
+        borrow = Borrow(
+            borrow_date=datetime(2023, 11, 1),
+            due_date=datetime(2023, 11, 15),
+            return_date=None
+        )
+        self.assertEqual(calculate_late_fee(borrow), 0, "Late fee should be 0 if no return date is set.")
 
 
 if __name__ == '__main__':

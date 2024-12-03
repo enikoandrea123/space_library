@@ -17,9 +17,28 @@ def home():
 @main.route('/catalog')
 def catalog():
     try:
+        search = request.args.get('search', '').strip()
+        genre = request.args.get('genre', '').strip()
+        year = request.args.get('year', type=int)
+
         page = request.args.get('page', 1, type=int)
         per_page = 10
-        books = Book.query.paginate(page=page, per_page=per_page, error_out=False)
+
+        query = Book.query
+
+        if search:
+            query = query.filter(
+                (Book.title.ilike(f'%{search}%')) | (Book.author.ilike(f'%{search}%'))
+            )
+
+        if genre:
+            query = query.filter_by(genre=genre)
+
+        if year:
+            query = query.filter_by(publication_year=year)
+
+        books = query.paginate(page=page, per_page=per_page, error_out=False)
+
     except OperationalError:
         books = []
         error_message = "Error: Unable to access the database. Please try again later."
@@ -28,7 +47,6 @@ def catalog():
     return render_template('catalog.html', books=books)
 
 
-# Add Book Page
 @main.route('/add_book', methods=['GET', 'POST'])
 def add_book():
     form = BookForm()
@@ -85,9 +103,24 @@ def delete_book(book_id):
 
 @main.route('/users')
 def users():
-    users = User.query.all()
-    return render_template('users.html', users=users)
+    search_query = request.args.get('search', '')
+    user_id = request.args.get('id', type=int)
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
 
+    query = User.query
+
+    if search_query:
+        search_filter = f"%{search_query}%"
+        query = query.filter(
+            (User.name.ilike(search_filter)) | (User.email.ilike(search_filter))
+        )
+    if user_id:
+        query = query.filter(User.id == user_id)
+
+    users = query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template('users.html', users=users, search_query=search_query, user_id=user_id)
 
 @main.route('/add_user', methods=['GET', 'POST'])
 def add_user():
