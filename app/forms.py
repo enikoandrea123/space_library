@@ -12,7 +12,6 @@ class BookForm(FlaskForm):
     publication_year = IntegerField('Publication Year',
                                     validators=[DataRequired(), NumberRange(min=1000, max=date.today().year)])
     genre = StringField('Genre', validators=[DataRequired(), Length(min=1, max=100)])
-    page_number = IntegerField('Page Number', validators=[DataRequired(), NumberRange(min=1)])
     submit = SubmitField('Save Book')
 
 

@@ -57,7 +57,6 @@ def add_book():
             isbn=form.isbn.data,
             quantity=form.quantity.data,
             genre=form.genre.data,
-            page_number=form.page_number.data,
             publication_year=form.publication_year.data
         )
         db.session.add(new_book)
@@ -70,6 +69,7 @@ def add_book():
 def edit_book(book_id):
     book = Book.query.get_or_404(book_id)
     form = BookForm(obj=book)
+
     if form.validate_on_submit():
         book.title = form.title.data
         book.author = form.author.data
@@ -77,16 +77,17 @@ def edit_book(book_id):
         book.genre = form.genre.data
         book.quantity = form.quantity.data
         book.publication_year = form.publication_year.data
-        book.page_number = form.page_number.data
+
         try:
             db.session.commit()
             flash("Book updated successfully!", "success")
-            return redirect(url_for('main.catalog'))
+            return render_template('edit_book.html', form=form, success=True, book_id=book.id)
         except:
             db.session.rollback()
             flash("There was an issue updating the book.", "error")
-    return render_template('edit_book.html', form=form)
+            return render_template('edit_book.html', form=form)
 
+    return render_template('edit_book.html', form=form)
 
 @main.route('/delete_book/<int:book_id>', methods=['GET'])
 def delete_book(book_id):
@@ -131,7 +132,6 @@ def add_user():
             birthdate=form.birthdate.data,
             email=form.email.data,
             phone_number=form.phone_number.data,
-            member_since=datetime.now()
         )
         db.session.add(new_user)
         db.session.commit()
@@ -140,21 +140,27 @@ def add_user():
 
 
 @main.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+@main.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     form = UserForm(obj=user)
+
     if form.validate_on_submit():
+        flash("Form submitted and validated!", "success")
+
         user.name = form.name.data
         user.email = form.email.data
         user.phone_number = form.phone_number.data
         user.birthdate = form.birthdate.data
+
         try:
             db.session.commit()
             flash("User updated successfully!", "success")
-            return redirect(url_for('main.users'))
-        except:
+            return redirect(url_for('main.users'))  # Redirect after successful update
+        except Exception as e:
             db.session.rollback()
-            flash("There was an issue updating the user.", "error")
+            flash(f"There was an issue updating the user: {str(e)}", "error")
+
     return render_template('edit_user.html', form=form)
 
 
@@ -175,7 +181,7 @@ def delete_user(user_id):
 def borrowed_books():
     borrowed_books = Borrow.query.filter_by(return_date=None).all()
     for borrow in borrowed_books:
-        borrow.late_fee_amount = borrow.late_fee()  # Calculate late fee
+        borrow.late_fee_amount = borrow.late_fee()
     return render_template('borrowed_books.html', borrowed_books=borrowed_books)
 
 @main.route('/borrow', methods=['GET', 'POST'])

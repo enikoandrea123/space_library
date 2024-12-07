@@ -133,6 +133,7 @@
             <h3>{{ user.name }}</h3>
             <p>Email: {{ user.email }}</p>
             <p>Phone: {{ user.phone_number }}</p>
+            <p>Birthdate: {{ user.birthdate }}</p>
             <p>ID: {{ user.id }}</p>
             <a href="{{ url_for('main.edit_user', user_id=user.id) }}" class="btn">Edit User</a>
             <a href="{{ url_for('main.delete_user', user_id=user.id) }}" class="btn"

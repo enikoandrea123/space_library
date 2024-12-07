@@ -41,32 +41,32 @@
             background-color: #ff6080;
         }
         nav {
-        background-color: #f3c0cb;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    nav a {
-        color: #6a5acd;
-        text-decoration: none;
-        font-weight: bold;
-        margin: 0 15px;
-        padding: 10px 15px;
-        display: inline-block;
-        border-radius: 5px;
-        transition: background-color 0.3s, color 0.3s;
-    }
+            background-color: #f3c0cb;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #6a5acd;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            padding: 10px 15px;
+            display: inline-block;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    nav a i {
-        margin-right: 5px;
-    }
+        nav a i {
+            margin-right: 5px;
+        }
 
-    nav a:hover {
-        background-color: #ff80ab;
-        color: white;
-    }
+        nav a:hover {
+            background-color: #ff80ab;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +80,17 @@
 </nav>
 <div class="container">
     <h1>Edit User</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div>
+            {% for category, message in messages %}
+                <div class="{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
     <div class="form-container">
         <form method="POST">
             {{ form.hidden_tag() }}

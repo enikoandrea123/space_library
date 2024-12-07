@@ -10,7 +10,6 @@ class Book(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=1)
     publication_year = db.Column(db.Integer, nullable=False)
     genre = db.Column(db.String(100), nullable=False)
-    page_number = db.Column(db.Integer, nullable=False)
 
     borrows = db.relationship('Borrow', backref='book', lazy=True)
 
@@ -24,7 +23,6 @@ class User(db.Model):
     birthdate = db.Column(db.Date, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
-    member_since = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     id = db.Column(db.Integer, primary_key=True)
 
     borrows = db.relationship('Borrow', backref='user', lazy=True)

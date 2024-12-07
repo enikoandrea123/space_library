@@ -68,6 +68,24 @@
         background-color: #ff80ab;
         color: white;
     }
+
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
     </style>
 </head>
 <body>
@@ -81,6 +99,13 @@
 </nav>
 <div class="container">
     <h1>Edit Book</h1>
+
+    {% if success %}
+        <div class="success-message">
+            <p>Book updated successfully! <a href="{{ url_for('main.catalog') }}">Go back to Catalog</a></p>
+        </div>
+    {% endif %}
+
     <div class="form-container">
         <form method="POST">
             {{ form.hidden_tag() }}
@@ -90,10 +115,10 @@
             {{ form.quantity.label }} {{ form.quantity() }}<br>
             {{ form.publication_year.label }} {{ form.publication_year() }}<br>
             {{ form.genre.label }} {{ form.genre() }}<br>
-            {{ form.page_number.label }} {{ form.page_number() }}<br>
             <button type="submit">Update Book</button>
         </form>
     </div>
+
 </div>
 </body>
 </html>
