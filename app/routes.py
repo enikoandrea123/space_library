@@ -1,10 +1,11 @@
-from sqlite3 import OperationalError
+from sqlite3 import OperationalError, IntegrityError
 
 from flask import render_template, request, redirect, url_for, Blueprint, flash
 from app import db
 from app.models import Book, User, Borrow
 from app.forms import BookForm, UserForm, BorrowForm
 from datetime import datetime, timedelta
+import datetime
 
 main = Blueprint('main', __name__)
 
@@ -106,16 +107,20 @@ def edit_book(book_id):
 @main.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     form = UserForm()
-    if form.validate_on_submit():
+
+    if request.method == 'POST' and form.validate_on_submit():
         new_user = User(
             name=form.name.data,
-            birthdate=form.birthdate.data,
             email=form.email.data,
             phone_number=form.phone_number.data,
+            birthdate=datetime.datetime.strptime(form.birthdate.data, '%Y-%m-%d').date()
         )
+
         db.session.add(new_user)
         db.session.commit()
+        flash('User added successfully!', 'success')
         return redirect(url_for('main.users'))
+
     return render_template('add_user.html', form=form)
 
 @main.route('/delete_book/<int:book_id>', methods=['GET'])
@@ -131,62 +136,51 @@ def delete_book(book_id):
     return redirect(url_for('main.catalog'))
 
 
-@main.route('/users')
+@main.route('/users', methods=['GET', 'POST'])
 def users():
-    search_query = request.args.get('search', '')
-    user_id = request.args.get('id', type=int)
-    page = request.args.get('page', 1, type=int)
-    per_page = 10
+    search = request.args.get('search', '')
+    user_id = request.args.get('id', '')
 
     query = User.query
-
-    if search_query:
-        search_filter = f"%{search_query}%"
-        query = query.filter(
-            (User.name.ilike(search_filter)) | (User.email.ilike(search_filter))
-        )
+    if search:
+        query = query.filter(User.name.ilike(f'%{search}%') | User.email.ilike(f'%{search}%'))
     if user_id:
         query = query.filter(User.id == user_id)
 
-    users = query.paginate(page=page, per_page=per_page, error_out=False)
+    users = query.paginate(page=request.args.get('page', 1, type=int), per_page=5)
 
-    return render_template('users.html', users=users, search_query=search_query, user_id=user_id)
-
+    return render_template('users.html', users=users)
 
 @main.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
+
     form = UserForm(obj=user)
 
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         user.name = form.name.data
         user.email = form.email.data
         user.phone_number = form.phone_number.data
         user.birthdate = form.birthdate.data
 
-        try:
-            db.session.commit()
-            flash("User updated successfully!", "success")
-            return redirect(url_for('main.users'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f"There was an issue updating the user: {str(e)}", "error")
+        db.session.commit()
+        flash('User updated successfully!', 'success')
+        return redirect(url_for('main.users'))
 
-    return render_template('edit_user.html', form=form)
+    return render_template('edit_user.html', form=form, user=user)
 
-@main.route('/delete_user/<int:user_id>', methods=['GET'])
+@main.route('/delete_user/<int:user_id>', methods=['GET', 'POST'])
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
+
     try:
         db.session.delete(user)
         db.session.commit()
-        flash("User deleted successfully!", "success")
-    except:
-        db.session.rollback()
-        flash("There was an issue deleting the user.", "error")
+        flash('User deleted successfully!', 'success')
+    except IntegrityError:
+        flash('Error: Unable to delete user due to existing references!', 'danger')
+
     return redirect(url_for('main.users'))
-
-
 @main.route('/borrowed_books')
 def borrowed_books():
     borrowed_books = Borrow.query.filter_by(return_date=None).all()

@@ -16,10 +16,10 @@ class BookForm(FlaskForm):
 
 
 class UserForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=1, max=150)])
-    birthdate = DateField('Birthdate', format='%Y-%m-%d', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email(), Length(min=6, max=150)])
-    phone_number = StringField('Phone Number', validators=[DataRequired(), Length(min=10, max=15)])
+    name = StringField('Full Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone_number = StringField('Phone Number', validators=[DataRequired()])
+    birthdate = DateField('Birthdate', validators=[DataRequired()], format='%Y-%m-%d')
     submit = SubmitField('Save User')
 
 

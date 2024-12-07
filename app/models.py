@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta
+
+from sqlalchemy.orm import relationship
+
 from app import db
 
 
@@ -19,12 +22,12 @@ class Book(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    birthdate = db.Column(db.Date, nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
-    phone_number = db.Column(db.String(15), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    phone_number = db.Column(db.String(20), nullable=True)
+    birthdate = db.Column(db.Date, nullable=True)
 
-    borrows = db.relationship('Borrow', backref='user', lazy=True)
+    borrowed_books = relationship('Borrow', backref='user', cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'<User {self.name}>'
