@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Catalog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap"
+          rel="stylesheet">
     <style>
         body {
             background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
@@ -186,7 +187,7 @@
             .book-card {
                 padding: 15px;
             }
-            /* Base Button Styles */
+
 .btn {
     color: white;
     padding: 10px 15px;
@@ -197,7 +198,6 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Borrow Button */
 .borrow-btn {
     background-color: #4da8da;
 }
@@ -206,7 +206,6 @@
     background-color: #4090bf;
 }
 
-/* Edit Button */
 .edit-btn {
     background-color: #ffcc5c;
 }
@@ -215,7 +214,6 @@
     background-color: #e6b44e;
 }
 
-/* Delete Button */
 .delete-btn {
     background-color: #ff7f7f;
 }
@@ -241,7 +239,8 @@
 
     <form class="filter-form" method="get" action="{{ url_for('main.catalog') }}">
         <label for="search">Search:</label>
-        <input type="text" id="search" name="search" placeholder="Search by title or author" value="{{ request.args.get('search', '') }}">
+        <input type="text" id="search" name="search" placeholder="Search by title or author"
+               value="{{ request.args.get('search', '') }}">
 
         <label for="genre">Genre:</label>
         <select id="genre" name="genre">
@@ -259,21 +258,22 @@
     </form>
 
     {% if books.items %}
-        {% for book in books.items %}
-        <div class="book-card">
-    <h3>{{ book.title }} by {{ book.author }}</h3>
-    <p>ISBN: {{ book.isbn }}</p>
-    <p>Genre: {{ book.genre }}</p>
-    <p>Publication year: {{ book.publication_year }}</p>
-    <p>Quantity available: {{ book.quantity }}</p>
+    {% for book in books.items %}
+    <div class="book-card">
+        <h3>{{ book.title }} by {{ book.author }}</h3>
+        <p>ISBN: {{ book.isbn }}</p>
+        <p>Genre: {{ book.genre }}</p>
+        <p>Publication year: {{ book.publication_year }}</p>
+        <p>Quantity available: {{ book.quantity }}</p>
 
-    <a href="{{ url_for('main.registrate_borrowing', isbn=book.isbn) }}" class="btn borrow-btn">Borrow a Book</a>
-    <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn edit-btn">Edit Book</a>
-    <a href="{{ url_for('main.delete_book', book_id=book.id) }}" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
-</div>
-        {% endfor %}
+        <a href="{{ url_for('main.registrate_borrowing', isbn=book.isbn) }}" class="btn borrow-btn">Borrow a Book</a>
+        <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn edit-btn">Edit Book</a>
+        <a href="{{ url_for('main.delete_book', book_id=book.id) }}" class="btn delete-btn"
+           onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
+    </div>
+    {% endfor %}
     {% else %}
-        <p>No books match the current filters.</p>
+    <p>No books match the current filters.</p>
     {% endif %}
 </div>
 </body>

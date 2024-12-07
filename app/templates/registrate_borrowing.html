@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Borrowing</title>
     <style>
-          body {
+        body {
             font-family: 'Poppins', sans-serif;
             background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
             background-size: cover;
@@ -41,7 +41,7 @@
         }
 
         nav a {
-            color: #4da8da; /* Blue color for the links */
+            color: #4da8da;
             text-decoration: none;
             font-weight: bold;
             margin: 0 15px;
@@ -52,7 +52,7 @@
         }
 
         nav a:hover {
-            background-color: #ff7f7f; /* Soft orange hover color */
+            background-color: #ff7f7f;
             color: white;
         }
 
@@ -83,7 +83,7 @@
 
         label {
             font-size: 1rem;
-            color: #4da8da; /* Blue color for the labels */
+            color: #4da8da;
         }
 
         input, select {
@@ -125,7 +125,7 @@
 
         .back-button:hover {
             text-decoration: underline;
-            color: #ff7f7f; /* Soft orange hover color for the back button */
+            color: #ff7f7f;
         }
     </style>
 </head>
@@ -138,31 +138,65 @@
     <a href="{{ url_for('main.add_book') }}"><i class="fas fa-plus-circle"></i> Add Book</a>
     <a href="{{ url_for('main.add_user') }}"><i class="fas fa-user-plus"></i> Add User</a>
 </nav>
-    <div class="container">
-        <h1>Register Borrowing</h1>
-        <form method="POST">
+
+<div class="container">
+    <h1>Register Borrowing</h1>
+    <form method="POST">
+        <div class="form-group">
             <label for="user_id">User ID</label>
             <input type="text" id="user_id" name="user_id" required>
+        </div>
 
-           <label for="isbn">ISBN</label>
-    <input type="text" id="isbn" name="isbn" value="{{ request.args.get('isbn') }}" required readonly>
+        <div class="form-group">
+            <label for="user_name">User Name</label>
+            <input type="text" id="user_name" name="user_name" readonly required>
+        </div>
 
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" name="isbn" value="{{ request.args.get('isbn') }}" required readonly>
+        </div>
+
+        <div class="form-group">
             <label for="borrow_date">Borrow Date</label>
             <input type="date" id="borrow_date" name="borrow_date" required>
+        </div>
 
+        <div class="form-group">
             <label for="due_date">Due Date</label>
             <input type="date" id="due_date" name="due_date" required>
+        </div>
 
-            <button type="submit" class="btn">Register Borrowing</button>
-        </form>
+        <button type="submit">Register Borrowing</button>
+    </form>
 
-        {% if success_message %}
-        <div class="message" style="color: green;">{{ success_message }}</div>
-        {% endif %}
+    {% if success_message %}
+    <div class="message" style="color: green;">{{ success_message }}</div>
+    {% endif %}
 
-        {% if error_message %}
-        <div class="message" style="color: red;">{{ error_message }}</div>
-        {% endif %}
-    </div>
+    {% if error_message %}
+    <div class="message" style="color: red;">{{ error_message }}</div>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('user_id').addEventListener('input', function () {
+        var userId = this.value;
+        if (userId) {
+            fetch(`/get_user_name/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.name) {
+                        document.getElementById('user_name').value = data.name;
+                    } else {
+                        document.getElementById('user_name').value = '';
+                    }
+                })
+                .catch(error => console.error('Error fetching user data:', error));
+        } else {
+            document.getElementById('user_name').value = '';
+        }
+    });
+</script>
 </body>
 </html>

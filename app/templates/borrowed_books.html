@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrowed Books</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap"
+          rel="stylesheet">
     <style>
         body {
             background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
@@ -164,40 +165,40 @@
     <h1>Borrowed Books</h1>
     <table>
         <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Username</th>
-                <th>User ID</th>
-                <th>ISBN</th>
-                <th>Borrow Date</th>
-                <th>Due Date</th>
-                <th>Late Fee</th>
-                <th>Action</th>
-            </tr>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Username</th>
+            <th>User ID</th>
+            <th>ISBN</th>
+            <th>Borrow Date</th>
+            <th>Due Date</th>
+            <th>Late Fee</th>
+            <th>Action</th>
+        </tr>
         </thead>
         <tbody>
-            {% for borrow in borrowed_books %}
-            <tr>
-                <td>{{ borrow.book.title }}</td>
-                <td>{{ borrow.book.author }}</td>
-                <td>{{ borrow.user.name }}</td>
-                <td>{{ borrow.user_id }}</td>
-                <td>{{ borrow.book.isbn }}</td>
-                <td>{{ borrow.borrow_date.strftime('%Y-%m-%d') }}</td>
-                <td>{{ borrow.due_date.strftime('%Y-%m-%d') }}</td>
-                <td class="late-fee" data-borrow-id="{{ borrow.id }}">
-                    ${{ borrow.late_fee_amount }}
-                </td>
-                <td>
-                    {% if borrow.return_date %}
-                    <span>Returned</span>
-                    {% else %}
-                    <a href="#" class="btn return-btn" data-borrow-id="{{ borrow.id }}">Return</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
+        {% for borrow in borrowed_books %}
+        <tr>
+            <td>{{ borrow.book.title }}</td>
+            <td>{{ borrow.book.author }}</td>
+            <td>{{ borrow.user.name }}</td>
+            <td>{{ borrow.user_id }}</td>
+            <td>{{ borrow.book.isbn }}</td>
+            <td>{{ borrow.borrow_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ borrow.due_date.strftime('%Y-%m-%d') }}</td>
+            <td class="late-fee" data-borrow-id="{{ borrow.id }}">
+                ${{ borrow.late_fee_amount }}
+            </td>
+            <td>
+                {% if borrow.return_date %}
+                <span>Returned</span>
+                {% else %}
+                <a href="#" class="btn return-btn" data-borrow-id="{{ borrow.id }}">Return</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>

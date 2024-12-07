@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Catalog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap"
+          rel="stylesheet">
     <style>
         body {
             background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
@@ -204,7 +205,8 @@
 
     <form class="filter-form" method="get" action="{{ url_for('main.users') }}">
         <label for="search">Search:</label>
-        <input type="text" id="search" name="search" placeholder="Search by name or email" value="{{ request.args.get('search', '') }}">
+        <input type="text" id="search" name="search" placeholder="Search by name or email"
+               value="{{ request.args.get('search', '') }}">
 
         <label for="id">User ID:</label>
         <input type="number" id="id" name="id" placeholder="Search by ID" value="{{ request.args.get('id', '') }}">
@@ -220,16 +222,19 @@
         <p>Birthdate: {{ user.birthdate }}</p>
         <p>ID: {{ user.id }}</p>
         <a href="{{ url_for('main.edit_user', user_id=user.id) }}" class="btn">Edit User</a>
-        <a href="{{ url_for('main.delete_user', user_id=user.id) }}" class="btn" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</a>
+        <a href="{{ url_for('main.delete_user', user_id=user.id) }}" class="btn"
+           onclick="return confirm('Are you sure you want to delete this user?')">Delete User</a>
     </div>
     {% endfor %}
 
     <div class="pagination">
         {% if users.has_prev %}
-        <a href="{{ url_for('main.users', page=users.prev_num, search=request.args.get('search', ''), id=request.args.get('id', '')) }}" class="btn">Previous</a>
+        <a href="{{ url_for('main.users', page=users.prev_num, search=request.args.get('search', ''), id=request.args.get('id', '')) }}"
+           class="btn">Previous</a>
         {% endif %}
         {% if users.has_next %}
-        <a href="{{ url_for('main.users', page=users.next_num, search=request.args.get('search', ''), id=request.args.get('id', '')) }}" class="btn">Next</a>
+        <a href="{{ url_for('main.users', page=users.next_num, search=request.args.get('search', ''), id=request.args.get('id', '')) }}"
+           class="btn">Next</a>
         {% endif %}
     </div>
 </div>

@@ -1,5 +1,5 @@
 from sqlite3 import OperationalError, IntegrityError
-from flask import render_template, request, redirect, url_for, Blueprint, flash
+from flask import render_template, request, redirect, url_for, Blueprint, flash, jsonify
 from app import db
 from app.models import Book, User, Borrow
 from app.forms import BookForm, UserForm, BorrowForm
@@ -11,7 +11,6 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def home():
     return render_template('home.html')
-
 
 @main.route('/catalog')
 def catalog():
@@ -305,3 +304,11 @@ def return_book(borrow_id):
             db.session.rollback()
             return {"success": False}, 400
     return {"success": False}, 400
+
+@main.route('/get_user_name/<user_id>')
+def get_user_name(user_id):
+    user = User.query.get(user_id)
+    if user:
+        return jsonify({'name': user.name})
+    else:
+        return jsonify({'name': None}), 404
