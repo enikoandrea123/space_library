@@ -45,7 +45,12 @@ class Borrow(db.Model):
         return f'<Borrow {self.book.title} by {self.user.name}>'
 
     def late_fee(self):
-        if self.return_date and self.return_date > self.due_date:
-            days_late = (self.return_date - self.due_date).days
-            return days_late * 1  # Late fee $1 per day
+        if not self.return_date:
+            return_date = datetime.now()
+        else:
+            return_date = self.return_date
+
+        if return_date > self.due_date:
+            days_late = (return_date - self.due_date).days
+            return days_late * 1  # Late fee of $1 per day
         return 0

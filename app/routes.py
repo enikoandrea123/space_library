@@ -174,8 +174,9 @@ def delete_user(user_id):
 @main.route('/borrowed_books')
 def borrowed_books():
     borrowed_books = Borrow.query.filter_by(return_date=None).all()
+    for borrow in borrowed_books:
+        borrow.late_fee_amount = borrow.late_fee()  # Calculate late fee
     return render_template('borrowed_books.html', borrowed_books=borrowed_books)
-
 
 @main.route('/borrow', methods=['GET', 'POST'])
 def borrow_book():
@@ -215,16 +216,6 @@ def borrow_book():
             return redirect(url_for('main.borrow_book'))
 
     return render_template('borrowed_books.html')
-
-
-@main.route('/return/<int:book_id>', methods=['GET', 'POST'])
-def return_book(book_id):
-    borrow = Borrow.query.filter_by(book_id=book_id, return_date=None).first()
-    if borrow:
-        borrow.return_date = datetime.now()
-        db.session.commit()
-        return redirect(url_for('main.borrowed_books'))
-    return redirect(url_for('main.borrowed_books'))
 
 
 @main.route('/borrow', methods=['GET', 'POST'])
@@ -282,3 +273,23 @@ def registrate_borrowing():
         return render_template('registrate_borrowing.html', success_message=success_message)
 
     return render_template('registrate_borrowing.html')
+
+
+@main.route('/return/<int:borrow_id>', methods=['POST'])
+def return_book(borrow_id):
+    borrow = Borrow.query.get_or_404(borrow_id)
+
+    if borrow.return_date is None:
+        borrow.return_date = datetime.now()
+
+        book = Book.query.get(borrow.book_id)
+        if book:
+            book.quantity += 1
+
+        try:
+            db.session.commit()
+            return {"success": True}, 200
+        except:
+            db.session.rollback()
+            return {"success": False}, 400
+    return {"success": False}, 400

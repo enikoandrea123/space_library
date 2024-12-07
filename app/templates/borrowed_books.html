@@ -62,6 +62,39 @@
         color: white;
     }
     </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const returnButtons = document.querySelectorAll('.return-btn');
+
+        returnButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const borrowId = this.getAttribute('data-borrow-id');
+
+                fetch(`/return/${borrowId}`, {
+                    method: 'POST',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const row = this.closest('tr');
+                        row.remove();
+
+                        const bookTitle = row.querySelector('td').textContent.trim();
+                        const updatedQuantity = parseInt(row.querySelector('.quantity').textContent) + 1;
+
+                        alert(`Book returned successfully! The available quantity of '${bookTitle}' is now ${updatedQuantity}.`);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    alert("The book has been returned successfully.");
+                });
+            });
+        });
+    });
+</script>
+
 </head>
 <body>
 
@@ -85,7 +118,8 @@
             <th>ISBN</th>
             <th>Borrow Date</th>
             <th>Due Date</th>
-            <th>Return Date</th>
+            <th>Late Fee</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -98,7 +132,16 @@
             <td>{{ borrow.book.isbn }}</td>
             <td>{{ borrow.borrow_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ borrow.due_date.strftime('%Y-%m-%d') }}</td>
-            <td>{{ borrow.return_date.strftime('%Y-%m-%d') if borrow.return_date else 'Not Returned' }}</td>
+            <td class="late-fee" data-borrow-id="{{ borrow.id }}">
+                ${{ borrow.late_fee_amount }}
+            </td>
+            <td>
+                {% if borrow.return_date %}
+                <span>Returned</span>
+                {% else %}
+                <a href="#" class="btn return-btn" data-borrow-id="{{ borrow.id }}">Return</a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
         </tbody>
