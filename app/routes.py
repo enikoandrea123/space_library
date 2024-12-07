@@ -104,25 +104,6 @@ def edit_book(book_id):
 
     return render_template('edit_book.html', form=form)
 
-@main.route('/add_user', methods=['GET', 'POST'])
-def add_user():
-    form = UserForm()
-
-    if request.method == 'POST' and form.validate_on_submit():
-        new_user = User(
-            name=form.name.data,
-            email=form.email.data,
-            phone_number=form.phone_number.data,
-            birthdate=datetime.datetime.strptime(form.birthdate.data, '%Y-%m-%d').date()
-        )
-
-        db.session.add(new_user)
-        db.session.commit()
-        flash('User added successfully!', 'success')
-        return redirect(url_for('main.users'))
-
-    return render_template('add_user.html', form=form)
-
 @main.route('/delete_book/<int:book_id>', methods=['GET'])
 def delete_book(book_id):
     book = Book.query.get_or_404(book_id)
@@ -150,6 +131,29 @@ def users():
     users = query.paginate(page=request.args.get('page', 1, type=int), per_page=5)
 
     return render_template('users.html', users=users)
+
+@main.route('/add_user', methods=['GET', 'POST'])
+def add_user():
+    form = UserForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        try:
+            new_user = User(
+                name=form.name.data,
+                email=form.email.data,
+                phone_number=form.phone_number.data,
+                birthdate=form.birthdate.data
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash('User successfully added!', 'success')
+            return redirect(url_for('main.users'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"An error occurred: {str(e)}", 'danger')
+            return render_template('add_user.html', form=form)
+
+    return render_template('add_user.html', form=form)
 
 @main.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):

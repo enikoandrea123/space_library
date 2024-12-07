@@ -87,24 +87,13 @@
 <div class="container">
     <h1>Add New User</h1>
     <form method="POST">
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" name="name" id="name" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
-        </div>
-        <div class="form-group">
-            <label for="phone_number">Phone Number</label>
-            <input type="text" name="phone_number" id="phone_number" required>
-        </div>
-        <div class="form-group">
-            <label for="birthdate">Birthdate</label>
-            <input type="date" name="birthdate" id="birthdate" required>
-        </div>
-        <button type="submit">Add User</button>
-    </form>
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name() }}<br>
+    {{ form.email.label }} {{ form.email() }}<br>
+    {{ form.phone_number.label }} {{ form.phone_number() }}<br>
+    {{ form.birthdate.label }} {{ form.birthdate() }}<br>
+    <button type="submit">Add User</button>
+</form>
     <a href="{{ url_for('main.users') }}" class="back-button">Back to Users List</a>
 </div>
 </body>
