@@ -40,9 +40,44 @@
         button:hover {
             background-color: #ff6080;
         }
+        nav {
+        background-color: #f3c0cb;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    nav a {
+        color: #6a5acd;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 0 15px;
+        padding: 10px 15px;
+        display: inline-block;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a i {
+        margin-right: 5px;
+    }
+
+    nav a:hover {
+        background-color: #ff80ab;
+        color: white;
+    }
     </style>
 </head>
 <body>
+<nav>
+    <a href="{{ url_for('main.home') }}"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('main.catalog') }}"><i class="fas fa-book"></i> Book Catalog</a>
+    <a href="{{ url_for('main.users') }}"><i class="fas fa-user"></i> User Catalog</a>
+    <a href="{{ url_for('main.borrowed_books') }}"><i class="fas fa-book-reader"></i> Borrowed Books</a>
+    <a href="{{ url_for('main.add_book') }}"><i class="fas fa-plus-circle"></i> Add Book</a>
+    <a href="{{ url_for('main.add_user') }}"><i class="fas fa-user-plus"></i> Add User</a>
+</nav>
 <div class="container">
     <h1>Edit User</h1>
     <div class="form-container">
