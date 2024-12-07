@@ -23,7 +23,6 @@ class User(db.Model):
     birthdate = db.Column(db.Date, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
-    id = db.Column(db.Integer, primary_key=True)
 
     borrows = db.relationship('Borrow', backref='user', lazy=True)
 

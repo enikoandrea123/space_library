@@ -49,20 +49,34 @@ def catalog():
 
 @main.route('/add_book', methods=['GET', 'POST'])
 def add_book():
-    form = BookForm()
-    if form.validate_on_submit():
+    if request.method == 'POST':
+        title = request.form['title']
+        author = request.form['author']
+        isbn = request.form['isbn']
+        quantity = request.form['quantity']
+        genre = request.form['genre']
+        publication_year = request.form['publication_year']
+
         new_book = Book(
-            title=form.title.data,
-            author=form.author.data,
-            isbn=form.isbn.data,
-            quantity=form.quantity.data,
-            genre=form.genre.data,
-            publication_year=form.publication_year.data
+            title=title,
+            author=author,
+            isbn=isbn,
+            quantity=quantity,
+            genre=genre,
+            publication_year=publication_year
         )
-        db.session.add(new_book)
-        db.session.commit()
-        return redirect(url_for('main.catalog'))
-    return render_template('add_book.html', form=form)
+
+        try:
+            db.session.add(new_book)
+            db.session.commit()
+            flash("Book added successfully!", "success")
+            return redirect(url_for('main.catalog'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error adding book: {e}", "error")
+            return render_template('add_book.html')
+
+    return render_template('add_book.html')
 
 
 @main.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
@@ -81,13 +95,28 @@ def edit_book(book_id):
         try:
             db.session.commit()
             flash("Book updated successfully!", "success")
-            return render_template('edit_book.html', form=form, success=True, book_id=book.id)
+            return redirect(url_for('main.catalog'))  # Redirect to catalog
         except:
             db.session.rollback()
             flash("There was an issue updating the book.", "error")
             return render_template('edit_book.html', form=form)
 
     return render_template('edit_book.html', form=form)
+
+@main.route('/add_user', methods=['GET', 'POST'])
+def add_user():
+    form = UserForm()
+    if form.validate_on_submit():
+        new_user = User(
+            name=form.name.data,
+            birthdate=form.birthdate.data,
+            email=form.email.data,
+            phone_number=form.phone_number.data,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('main.users'))
+    return render_template('add_user.html', form=form)
 
 @main.route('/delete_book/<int:book_id>', methods=['GET'])
 def delete_book(book_id):
@@ -123,31 +152,13 @@ def users():
 
     return render_template('users.html', users=users, search_query=search_query, user_id=user_id)
 
-@main.route('/add_user', methods=['GET', 'POST'])
-def add_user():
-    form = UserForm()
-    if form.validate_on_submit():
-        new_user = User(
-            name=form.name.data,
-            birthdate=form.birthdate.data,
-            email=form.email.data,
-            phone_number=form.phone_number.data,
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('main.users'))
-    return render_template('add_user.html', form=form)
 
-
-@main.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 @main.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     form = UserForm(obj=user)
 
     if form.validate_on_submit():
-        flash("Form submitted and validated!", "success")
-
         user.name = form.name.data
         user.email = form.email.data
         user.phone_number = form.phone_number.data
@@ -156,13 +167,12 @@ def edit_user(user_id):
         try:
             db.session.commit()
             flash("User updated successfully!", "success")
-            return redirect(url_for('main.users'))  # Redirect after successful update
+            return redirect(url_for('main.users'))
         except Exception as e:
             db.session.rollback()
             flash(f"There was an issue updating the user: {str(e)}", "error")
 
     return render_template('edit_user.html', form=form)
-
 
 @main.route('/delete_user/<int:user_id>', methods=['GET'])
 def delete_user(user_id):
