@@ -1,11 +1,9 @@
 from sqlite3 import OperationalError, IntegrityError
-
 from flask import render_template, request, redirect, url_for, Blueprint, flash
 from app import db
 from app.models import Book, User, Borrow
 from app.forms import BookForm, UserForm, BorrowForm
 from datetime import datetime, timedelta
-import datetime
 
 main = Blueprint('main', __name__)
 

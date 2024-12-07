@@ -5,67 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
+          body {
+            font-family: 'Poppins', sans-serif;
+            background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            position: relative;
         }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #6a5acd;
-            text-align: center;
-        }
-        .form-container {
-            background-color: #f3c0cb;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .form-container input,
-        .form-container button {
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            z-index: 0;
         }
-        button {
-            background-color: #ff80ab;
-            color: white;
-            border: none;
-        }
-        button:hover {
-            background-color: #ff6080;
-        }
+
         nav {
-            background-color: #f3c0cb;
+            background: rgba(255, 255, 255, 0.8);
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-bottom: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
         }
+
         nav a {
-            color: #6a5acd;
+            color: #4da8da; /* Blue color for the links */
             text-decoration: none;
             font-weight: bold;
             margin: 0 15px;
             padding: 10px 15px;
             display: inline-block;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        nav a i {
-            margin-right: 5px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         nav a:hover {
-            background-color: #ff80ab;
+            background-color: #ff7f7f; /* Soft orange hover color */
             color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #4da8da;
+            text-align: center;
+            font-family: 'Lobster', cursive;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #4da8da; /* Blue color for the labels */
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #e8d6e9;
+            font-size: 1rem;
+            margin-top: 5px;
+            background-color: #faf2f7;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #b5e7a0;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #98d58f;
+        }
+
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #a5b8d8;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+            color: #ff7f7f; /* Soft orange hover color for the back button */
         }
     </style>
 </head>

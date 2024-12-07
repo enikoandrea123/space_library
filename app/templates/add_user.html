@@ -7,27 +7,74 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f3f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
             margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            z-index: 0;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav a {
+            color: #4da8da; /* Blue color for the links */
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            padding: 10px 15px;
+            display: inline-block;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #ff7f7f; /* Soft orange hover color */
+            color: white;
         }
 
         .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
         }
 
-        .container h1 {
+        h1 {
+            color: #4da8da;
             text-align: center;
-            font-size: 2rem;
-            color: #ffb6c1;
-            margin-bottom: 30px;
+            font-family: 'Lobster', cursive;
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -36,10 +83,10 @@
 
         label {
             font-size: 1rem;
-            color: #333;
+            color: #4da8da; /* Blue color for the labels */
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             border-radius: 10px;
@@ -78,23 +125,42 @@
 
         .back-button:hover {
             text-decoration: underline;
+            color: #ff7f7f; /* Soft orange hover color for the back button */
         }
 
     </style>
 </head>
 <body>
 
+<nav>
+    <a href="{{ url_for('main.home') }}">Home</a>
+    <a href="{{ url_for('main.catalog') }}">Book Catalog</a>
+    <a href="{{ url_for('main.users') }}">User Catalog</a>
+    <a href="{{ url_for('main.borrowed_books') }}">Borrowed Books</a>
+    <a href="{{ url_for('main.add_book') }}">Add Book</a>
+    <a href="{{ url_for('main.add_user') }}">Add User</a>
+</nav>
+
 <div class="container">
     <h1>Add New User</h1>
     <form method="POST">
     {{ form.hidden_tag() }}
-    {{ form.name.label }} {{ form.name() }}<br>
-    {{ form.email.label }} {{ form.email() }}<br>
-    {{ form.phone_number.label }} {{ form.phone_number() }}<br>
-    {{ form.birthdate.label }} {{ form.birthdate() }}<br>
+    <div class="form-group">
+        {{ form.name.label }} {{ form.name() }}
+    </div>
+    <div class="form-group">
+        {{ form.email.label }} {{ form.email() }}
+    </div>
+    <div class="form-group">
+        {{ form.phone_number.label }} {{ form.phone_number() }}
+    </div>
+    <div class="form-group">
+        {{ form.birthdate.label }} {{ form.birthdate() }}
+    </div>
     <button type="submit">Add User</button>
-</form>
+    </form>
     <a href="{{ url_for('main.users') }}" class="back-button">Back to Users List</a>
 </div>
+
 </body>
 </html>

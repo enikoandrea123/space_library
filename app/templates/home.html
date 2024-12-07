@@ -17,11 +17,32 @@
 </div>
 
 <style>
+    body {
+        background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        color: #333;
+    }
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4); /* Increase transparency */
+    backdrop-filter: blur(10px); /* Increase blur effect */
+    z-index: 0;
+    border-radius: 20px; /* Optional rounded corners for softer edges */
+}
 
     .home-container {
         text-align: center;
         margin-top: 100px;
-        color: #333;
+        position: relative;
+        z-index: 1;
     }
 
     .home-container h1 {
@@ -31,37 +52,32 @@
         color: #6c757d;
     }
 
-
-    body {
-        background: linear-gradient(to right, #f6d6d2, #f7c3d6, #f0e6f6);
-        font-family: 'Poppins', sans-serif;
-    }
-
     p {
         font-size: 1.2rem;
         margin-bottom: 40px;
-        color: #666;
+        color: #555;
     }
 
 
-    .card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 350px;
-        margin: 0 auto;
-        background: #fff;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.8); /* Increase transparency */
+    border-radius: 20px; /* Softer rounded edges */
+    padding: 30px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* Softer and larger shadow for depth */
+    backdrop-filter: blur(15px); /* Additional blur effect inside the card */
+    transition: transform 0.3s ease;
+}
 
-    .card:hover {
-        transform: translateY(-10px);
-    }
-
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow on hover */
+}
 
     .options-container {
         display: flex;
@@ -72,8 +88,6 @@
     }
 
     .btn {
-        background-color: #f7c3d6;
-        color: #fff;
         padding: 15px;
         font-size: 1.2rem;
         text-decoration: none;
@@ -82,54 +96,18 @@
         text-align: center;
         transition: background-color 0.3s ease, transform 0.3s ease;
         width: 100%;
-        text-align: center;
+        color: #fff;
     }
 
-    .btn-primary {
-        background-color: #f6b7b2;
-    }
-
-    .btn-secondary {
-        background-color: #d0e1f9;
-    }
-
-    .btn-info {
-        background-color: #e3f5db;
-    }
-
-    .btn-success {
-        background-color: #e0d4f0;
-    }
-
-    .btn-warning {
-        background-color: #fff5c1;
-    }
-
+    .btn-primary { background-color: #ff9aa2; }
+    .btn-secondary { background-color: #ffdac1; }
+    .btn-info { background-color: #b5ead7; }
+    .btn-success { background-color: #c7ceea; }
+    .btn-warning { background-color: #ffb7b2; }
 
     .btn:hover {
         transform: scale(1.05);
     }
-
-    .btn-primary:hover {
-        background-color: #e8a7a0;
-    }
-
-    .btn-secondary:hover {
-        background-color: #b9d5f6;
-    }
-
-    .btn-info:hover {
-        background-color: #b9e4af;
-    }
-
-    .btn-success:hover {
-        background-color: #d1c6e3;
-    }
-
-    .btn-warning:hover {
-        background-color: #f8e89b;
-    }
-
 
     @media (max-width: 768px) {
         .card {
@@ -143,5 +121,6 @@
     }
 </style>
 
-<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet">
 {% endblock %}
