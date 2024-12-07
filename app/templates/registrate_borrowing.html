@@ -96,8 +96,8 @@
             <label for="user_id">User ID</label>
             <input type="text" id="user_id" name="user_id" required>
 
-            <label for="isbn">ISBN</label>
-            <input type="text" id="isbn" name="isbn" required>
+           <label for="isbn">ISBN</label>
+    <input type="text" id="isbn" name="isbn" value="{{ request.args.get('isbn') }}" required readonly>
 
             <label for="borrow_date">Borrow Date</label>
             <input type="date" id="borrow_date" name="borrow_date" required>

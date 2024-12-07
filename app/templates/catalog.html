@@ -120,15 +120,20 @@
 
     <form class="filter-form" method="get" action="{{ url_for('main.catalog') }}">
         <label for="search">Search:</label>
-        <input type="text" id="search" name="search" placeholder="Search by title or author" value="{{ request.args.get('search', '') }}">
+        <input type="text" id="search" name="search" placeholder="Search by title or author"
+               value="{{ request.args.get('search', '') }}">
 
         <label for="genre">Genre:</label>
         <select id="genre" name="genre">
             <option value="">--Select Genre--</option>
-            <option value="Fiction" {% if request.args.get('genre') == 'Fiction' %}selected{% endif %}>Fiction</option>
-            <option value="Non-Fiction" {% if request.args.get('genre') == 'Non-Fiction' %}selected{% endif %}>Non-Fiction</option>
-            <option value="Science Fiction" {% if request.args.get('genre') == 'Science Fiction' %}selected{% endif %}>Science Fiction</option>
-            <option value="Fantasy" {% if request.args.get('genre') == 'Fantasy' %}selected{% endif %}>Fantasy</option>
+            <option value="Fiction" {% if request.args.get(
+            'genre') == 'Fiction' %}selected{% endif %}>Fiction</option>
+            <option value="Non-Fiction" {% if request.args.get(
+            'genre') == 'Non-Fiction' %}selected{% endif %}>Non-Fiction</option>
+            <option value="Science Fiction" {% if request.args.get(
+            'genre') == 'Science Fiction' %}selected{% endif %}>Science Fiction</option>
+            <option value="Fantasy" {% if request.args.get(
+            'genre') == 'Fantasy' %}selected{% endif %}>Fantasy</option>
         </select>
 
         <label for="year">Publication Year:</label>
@@ -138,28 +143,30 @@
     </form>
 
     {% if books.items %}
-        {% for book in books.items %}
-        <div class="book-card">
-            <h3>{{ book.title }} by {{ book.author }}</h3>
-            <p>ISBN: {{ book.isbn }}</p>
-            <p>Genre: {{ book.genre }}</p>
-            <p>Quantity Available: {{ book.quantity }}</p>
-            <a href="{{ url_for('main.registrate_borrowing') }}" class="btn">Borrow a Book</a>
-            <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn">Edit Book</a>
-            <a href="{{ url_for('main.delete_book', book_id=book.id) }}" class="btn"
-               onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
-        </div>
-        {% endfor %}
+    {% for book in books.items %}
+    <div class="book-card">
+        <h3>{{ book.title }} by {{ book.author }}</h3>
+        <p>ISBN: {{ book.isbn }}</p>
+        <p>Genre: {{ book.genre }}</p>
+        <p>Quantity Available: {{ book.quantity }}</p>
+        <a href="{{ url_for('main.registrate_borrowing', isbn=book.isbn) }}" class="btn">Borrow a Book</a> <a
+            href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn">Edit Book</a>
+        <a href="{{ url_for('main.delete_book', book_id=book.id) }}" class="btn"
+           onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
+    </div>
+    {% endfor %}
     {% else %}
-        <p>No books match the current filters.</p>
+    <p>No books match the current filters.</p>
     {% endif %}
 
     <div class="pagination">
         {% if books.has_prev %}
-        <a href="{{ url_for('main.catalog', page=books.prev_num, search=request.args.get('search', ''), genre=request.args.get('genre', ''), year=request.args.get('year', '')) }}" class="btn">Previous</a>
+        <a href="{{ url_for('main.catalog', page=books.prev_num, search=request.args.get('search', ''), genre=request.args.get('genre', ''), year=request.args.get('year', '')) }}"
+           class="btn">Previous</a>
         {% endif %}
         {% if books.has_next %}
-        <a href="{{ url_for('main.catalog', page=books.next_num, search=request.args.get('search', ''), genre=request.args.get('genre', ''), year=request.args.get('year', '')) }}" class="btn">Next</a>
+        <a href="{{ url_for('main.catalog', page=books.next_num, search=request.args.get('search', ''), genre=request.args.get('genre', ''), year=request.args.get('year', '')) }}"
+           class="btn">Next</a>
         {% endif %}
     </div>
 </div>
