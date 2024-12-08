@@ -286,6 +286,9 @@ def registrate_borrowing():
     return render_template('registrate_borrowing.html')
 
 
+from flask import jsonify
+from datetime import datetime
+
 @main.route('/return/<int:borrow_id>', methods=['POST'])
 def return_book(borrow_id):
     borrow = Borrow.query.get_or_404(borrow_id)
@@ -299,11 +302,13 @@ def return_book(borrow_id):
 
         try:
             db.session.commit()
-            return {"success": True}, 200
-        except:
+            return jsonify({"success": True, "message": "Book returned successfully."}), 200
+        except Exception as e:
             db.session.rollback()
-            return {"success": False}, 400
-    return {"success": False}, 400
+            print(f"Error returning book: {e}")
+            return jsonify({"success": False, "message": "An error occurred while returning the book."}), 400
+
+    return jsonify({"success": False, "message": "Book has already been returned."}), 400
 
 @main.route('/get_user_name/<user_id>')
 def get_user_name(user_id):

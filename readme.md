@@ -5,7 +5,7 @@ The application includes features such as a searchable book catalog, user manage
 
 ---
 
-## Screenshots
+## Screenshots of demo pages
 
 ### 1. Home Page
 
@@ -15,19 +15,15 @@ The application includes features such as a searchable book catalog, user manage
 
 ![catalog.png](screenshoots/catalog.png)
 
-### 3. User List with Filter
-
-![users.png](screenshoots/users.png)
-
-### 4. Borrowed Books
+### 3. Borrowed Books
 
 ![borrowing.png](screenshoots/borrowing.png)
 
-### 5. Add New User
+### 4. Add New User
 
 ![add_user.png](screenshoots/add_user.png)
 
-### 6. Edit User
+### 5. Edit User
 
 ![edit_user.png](screenshoots/edit_user.png)
 
@@ -47,7 +43,7 @@ The application includes features such as a searchable book catalog, user manage
 3. **Borrowing Management**
     - Borrow a book for a user.
     - Return borrowed books and update availability.
-    - Calculate late fees based on overdue returns.
+    - Calculated late fees based on overdue returns.
 
 4. **UI Highlights**
     - Fully responsive design with intuitive layouts.

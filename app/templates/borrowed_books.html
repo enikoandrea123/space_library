@@ -195,6 +195,33 @@
                 <span>Returned</span>
                 {% else %}
                 <a href="#" class="btn return-btn" data-borrow-id="{{ borrow.id }}">Return</a>
+                <script>
+                    document.querySelectorAll('.return-btn').forEach(button => {
+                        button.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            const borrowId = this.getAttribute('data-borrow-id');
+
+                            fetch(`/return/${borrowId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
+                            }).then(response => response.json())
+                              .then(data => {
+                                  if (data.success) {
+                                      alert('Book returned successfully!');
+                                      location.reload();
+                                  } else {
+                                      alert(data.message || 'Failed to return the book.');
+                                  }
+                              }).catch(error => {
+                                  console.error('Error:', error);
+                                  alert('An error occurred.');
+                              });
+                        });
+                    });
+                </script>
                 {% endif %}
             </td>
         </tr>
@@ -202,39 +229,5 @@
         </tbody>
     </table>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const returnButtons = document.querySelectorAll('.return-btn');
-
-        returnButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const borrowId = button.dataset.borrowId;
-
-                fetch(`/return/${borrowId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        button.innerHTML = 'Returned';
-                        button.classList.remove('return-btn');
-                        button.classList.add('btn', 'btn-success'); /
-                    } else {
-                        alert('Failed to return the book.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while returning the book.');
-                });
-            });
-        });
-    });
-</script>
 </body>
 </html>
