@@ -51,6 +51,16 @@ The application includes features such as a searchable book catalog, user manage
 
 ---
 
+## Technologies
+
+-  Python
+- Python extensions: Flask, Django
+- JavaScript
+- Javascript extensions: React, Vue, Node.js
+- HTML, CSS
+
+---
+
 ## Installation
 
 1. Clone the repository:
